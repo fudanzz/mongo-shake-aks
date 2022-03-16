@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-cm
+data:
+  collector.conf: |-
+{{- range $key, $val := .Values.conf }}
+{{ $key  | indent 4}} = {{ $val | }}
+{{- end}}

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  mongo-shake-{{ .Release.Name }}
+  labels:
+    app: mongo-shake-{{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-shake-{{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: mongo-shake-{{ .Release.Name }}
+    spec:
+      containers:
+      - name: mongoshake
+        image: "{{ .Values.image.repo }}:{{ .Values.image.tag }}"
+        args:
+        - -c
+        - cp /tmp/collector.conf /usr/local/app && /usr/local/app/collector.linux
+          --conf=/usr/local/app/collector.conf
+        command:
+        - /bin/sh
+        ports:
+        - containerPort: 9200
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.livenessProbe.path }}
+            port: {{ .Values.livenessProbe.port }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.livenessProbe.successThreshold }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+        volumeMounts:
+        - name: conf
+          mountPath: /tmp
+      volumes:
+      - configMap:
+          name: {{ .Release.Name }}-cm
+        name: conf
+          

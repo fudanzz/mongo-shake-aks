@@ -1,0 +1,14 @@
+apiVersion: v1
+appVersion: 3.11.6
+description: Mongo Shake Helm chart
+keywords:
+- mongo
+- shake
+- nosql
+maintainers:
+- email: zhongzhao@microsoft.com
+  name: Phil
+- email: zhaw@microsoft.com
+  name: Daniel
+name: mongo-shake
+version: 0.15.1
