@@ -31,6 +31,7 @@ helm install main oci://$ACR_NAME.azurecr.cn/helm/mongo-shake
 
 helm install backup  oci://$ACR_NAME.azurecr.cn/helm/mongo-shake
 
+helm list
 ```
 
 step6: you can use helm uninstall to delete the deployment
